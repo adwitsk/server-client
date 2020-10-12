@@ -38,7 +38,16 @@ int main()
 	send(socketId, textToSend, strlen(textToSend), 0);
 	printf("Text sent! Now Reading \n");
 
-	// TODO: Get file size in variable "filesize".
+	// Client gets the file size.
+	int fileSize;
+	if(read(socketId, textToRec, PACKET_SIZE) > 0){
+		sscanf(textToRec, "%d", &fileSize);
+		memset(textToRec, 0, PACKET_SIZE);
+	} else {
+		printf("Server disconnected. Exiting...\n");
+		exit(1);
+	}
+	
 
 	if(fileSize == -1){
 		printf("File not found. Exiting...\n");
