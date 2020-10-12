@@ -47,7 +47,15 @@ int main()
 		if(file = fopen(textToRec, "rb")){
 			printf("File found. Sending...\n");
 
-			// TODO: Calculate and send filesize.
+			// Server calculates the file size.
+			fseek(file, 0, SEEK_END);
+			fileSize = ftell(file);
+			fseek(file, 0, SEEK_SET);
+
+			// Server sends the file size.
+			sprintf(textToSend, "%d", fileSize);
+			send(client, textToSend, PACKET_SIZE, 0);
+			memset(textToSend, 0, PACKET_SIZE);
 
 			int actuallyRead;
 
